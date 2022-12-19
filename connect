@@ -1,0 +1,1 @@
+dotnet ef dbcontext Scaffold "Server=hirecamera.cdr9roqknuqa.ap-southeast-1.rds.amazonaws.com,1433;Initial Catalog=hirecamera;User ID=admin;Password=admin1234;" Microsoft.EntityFrameworkCore.SqlServer -o Entities --data-annotations -c DatabaseContext

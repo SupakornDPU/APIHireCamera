@@ -1,0 +1,189 @@
+// using System;
+// using System.Data;
+// using System.Data.SqlClient;
+// using System.Web.Mvc;
+
+// namespace MvcApplication.Controllers
+// {
+//     public class HomeController : Controller
+//     {
+//         private const string ConnectionString = "YOUR CONNECTION STRING HERE";
+
+//         public ActionResult Index()
+//         {
+//             // Fetch a list of items from the database
+//             var items = new List<Item>();
+//             using (var connection = new SqlConnection(ConnectionString))
+//             {
+//                 connection.Open();
+//                 using (var command = new SqlCommand("SELECT * FROM Items", connection))
+//                 {
+//                     using (var reader = command.ExecuteReader())
+//                     {
+//                         while (reader.Read())
+//                         {
+//                             items.Add(new Item
+//                             {
+//                                 Id = (int)reader["Id"],
+//                                 Name = (string)reader["Name"],
+//                                 Description = (string)reader["Description"],
+//                             });
+//                         }
+//                     }
+//                 }
+//             }
+
+//             return View(items);
+//         }
+
+//         public ActionResult Create()
+//         {
+//             return View();
+//         }
+
+//         [HttpPost]
+//         public ActionResult Create(Item item)
+//         {
+//             if (!ModelState.IsValid)
+//             {
+//                 return View(item);
+//             }
+
+//             // Insert the item into the database
+//             using (var connection = new SqlConnection(ConnectionString))
+//             {
+//                 connection.Open();
+//                 using (var command = new SqlCommand("INSERT INTO Items (Name, Description) VALUES (@Name, @Description)", connection))
+//                 {
+//                     command.Parameters.AddWithValue("@Name", item.Name);
+//                     command.Parameters.AddWithValue("@Description", item.Description);
+//                     command.ExecuteNonQuery();
+//                 }
+//             }
+
+//             return RedirectToAction("Index");
+//         }
+
+//         public ActionResult Edit(int id)
+//         {
+//             // Fetch the item from the database
+//             Item item;
+//             using (var connection = new SqlConnection(ConnectionString))
+//             {
+//                 connection.Open();
+//                 using (var command = new SqlCommand("SELECT * FROM Items WHERE Id = @Id", connection))
+//                 {
+//                     command.Parameters.AddWithValue("@Id", id);
+//                     using (var reader = command.ExecuteReader())
+//                     {
+//                         if (!reader.Read())
+//                         {
+//                             return HttpNotFound();
+//                         }
+
+//                         item = new Item
+//                         {
+//                             Id = (int)reader["Id"],
+//                             Name = (string)reader["Name"],
+//                             Description = (string)reader["Description"],
+//                         };
+//                     }
+//                 }
+//             }
+
+//             return View(item);
+//         }
+
+//         [HttpPost]
+//         public ActionResult Edit(Item item)
+//         {
+//             if (!ModelState.IsValid)
+//             {
+//                 return View(item);
+//             }
+
+
+
+
+
+// ! Comment
+
+// public class ItemRepository
+//     {
+//         private const string ConnectionString = "YOUR CONNECTION STRING HERE";
+
+//         public IEnumerable<Item> GetAll()
+//         {
+//             var items = new List<Item>();
+//             using (var connection = new SqlConnection(ConnectionString))
+//             {
+//                 connection.Open();
+//                 using (var command = new SqlCommand("SELECT * FROM Items", connection))
+//                 {
+//                     using (var reader = command.ExecuteReader())
+//                     {
+//                         while (reader.Read())
+//                         {
+//                             items.Add(new Item
+//                             {
+//                                 Id = (int)reader["Id"],
+//                                 Name = (string)reader["Name"],
+//                                 Description = (string)reader["Description"],
+//                             });
+//                         }
+//                     }
+//                 }
+//             }
+
+//             return items;
+//         }
+
+//         public Item GetById(int id)
+//         {
+//             Item item;
+//             using (var connection = new SqlConnection(ConnectionString))
+//             {
+//                 connection.Open();
+//                 using (var command = new SqlCommand("SELECT * FROM Items WHERE Id = @Id", connection))
+//                 {
+//                     command.Parameters.AddWithValue("@Id", id);
+//                     using (var reader = command.ExecuteReader())
+//                     {
+//                         if (!reader.Read())
+//                         {
+//                             return null;
+//                         }
+
+//                         item = new Item
+//                         {
+//                             Id = (int)reader["Id"],
+//                             Name = (string)reader["Name"],
+//                             Description = (string)reader["Description"],
+//                         };
+//                     }
+//                 }
+//             }
+
+//             return item;
+//         }
+
+//         public void Insert(Item item)
+//         {
+//             using (var connection = new SqlConnection(ConnectionString))
+//             {
+//                 connection.Open();
+//                 using (var command = new SqlCommand("INSERT INTO Items (Name, Description) VALUES (@Name, @Description)", connection))
+//                 {
+//                     command.Parameters.AddWithValue("@Name", item.Name);
+//                     command.Parameters.AddWithValue("@Description", item.Description);
+//                     command.ExecuteNonQuery();
+//                 }
+//             }
+//         }
+
+//         public void Update(Item item)
+//         {
+//             using (var connection = new SqlConnection(ConnectionString))
+//             {
+//                 connection.Open();
+//                 using (var command = new SqlCommand("UPDATE Items SET Name = @Name, Description =
